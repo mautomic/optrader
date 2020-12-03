@@ -1,7 +1,5 @@
 # optrader
 
-![master](https://github.com/mautomic/optrader/workflows/master/badge.svg)  
-
 Optrader is a full-scale options trading framework capable of running any customized strategy. It utilizes the TD Ameritrade API 
 to continuously query for option chains for a number of user-defined tickers and option expiration dates, and feeds the data to various 
 'portfolio managers' that each can run their own strategy and assess entries and exits via signals.
@@ -18,6 +16,8 @@ to be processing concurrently while retrieving the next set of option chains.
 I've used to get to this point. :)
 
 ## Design
+
+This codebase is mostly Java with touches of Kotlin (mostly experimental, but also to reduce verbosity).
 
 The framework is designed to be very 'plug-and-play' due to the abstractness of the core objects. You can create variations
 of each type of these objects if desired.  
