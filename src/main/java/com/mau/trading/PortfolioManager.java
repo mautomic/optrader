@@ -35,14 +35,6 @@ public class PortfolioManager {
         strategy.run(chain);
     }
 
-    /**
-     * Assesses risk metrics for the portfolio with the proposed position
-     */
-    public void rebalancePortfolio(OptionChain chain) {
-        // TODO: Build out some risk controls in the future - can also do portfolio adjustment directly here if things are out of whack
-        // TODO: Probably also need to call this periodically, instead of just when a new position might be entered
-    }
-
     public MongoCollection<Document> getPositionCollection() {
         return positionsCollection;
     }

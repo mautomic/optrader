@@ -1,6 +1,5 @@
 package com.mau.trading.strategy;
 
-import com.mau.trading.hedge.Hedger;
 import com.mau.trading.OptionTrader;
 import com.mau.trading.Position;
 import com.mau.trading.utility.DbUtil;
@@ -39,16 +38,14 @@ public class UnusualOptionsStrategy extends BaseStrategy {
     private final List<EntrySignal> entrySignals;
     private final List<ExitSignal> exitSignals;
     private final List<String> tickers;
-    private final List<Hedger> hedgers;
 
 
     public UnusualOptionsStrategy(MongoCollection<Document> positions, List<EntrySignal> entrySignals,
-                                  List<ExitSignal> exitSignals, List<String> tickers, List<Hedger> hedgers) {
+                                  List<ExitSignal> exitSignals, List<String> tickers) {
         super(positions);
         this.entrySignals = entrySignals;
         this.exitSignals = exitSignals;
         this.tickers = tickers;
-        this.hedgers = hedgers;
     }
 
     /**
@@ -74,14 +71,6 @@ public class UnusualOptionsStrategy extends BaseStrategy {
         currentPositions.addAll(DbUtil.getAllPositions(positions));
         // Run hedging logic with current chain after latest entries/exits
         hedge(chain);
-    }
-
-
-    @Override
-    public void hedge(OptionChain chain) {
-        for(Hedger hedger : hedgers) {
-            hedger.hedge(positions, chain, tickers, currentPositions, 1);
-        }
     }
 
     /**

@@ -2,9 +2,6 @@ package com.mau.trading;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.mau.trading.hedge.DeltaHedger;
-import com.mau.trading.hedge.Hedger;
-import com.mau.trading.signal.BSMPriceSignal;
 import com.mau.trading.signal.EntrySignal;
 import com.mau.trading.signal.ExitSignal;
 import com.mau.trading.signal.ExpiryExitSignal;
@@ -73,15 +70,10 @@ public class Main {
 
         // Create any entry signals
         List<EntrySignal> unusualOptionsEntrySignals = new ArrayList<>();
-        unusualOptionsEntrySignals.add(new BSMPriceSignal());
 
         // Create any exit signals
         List<ExitSignal> unusualOptionsExitSignals = new ArrayList<>();
         unusualOptionsExitSignals.add(new ExpiryExitSignal());
-
-        // Create any hedges
-        List<Hedger> unusualOptionsHedgers = new ArrayList<>();
-        unusualOptionsHedgers.add(new DeltaHedger());
 
         // Create the unique collection for tracking positions via MongoDb in this portfolio
         String unusualOptionsCollectionName = "unusual_options_positions";
@@ -101,8 +93,7 @@ public class Main {
                 positionsCollection,
                 unusualOptionsEntrySignals,
                 unusualOptionsExitSignals,
-                tickers,
-                unusualOptionsHedgers);
+                tickers);
 
         // Finally, return a portfolio manager created with this strategy
         return new PortfolioManager(unusualOptionsStrategy, positionsCollection);
