@@ -46,11 +46,11 @@ class UnusualOptionsStrategy(
     override fun run(chain: OptionChain?) {
         latestOptionChain = chain
         latestOptionMap.clear()
-        latestOptionMap.putAll(Util.flattenOptionChain(chain))
+        latestOptionMap.putAll(Util.flattenOptionChain(chain!!))
 
         // Mark high volume call options and enter a position when marked
         val callMap = latestOptionChain!!.callExpDateMap
-        callMap.forEach { (date: String?, strikes: Map<String, List<Option>>) -> markHighVolumeOptions(strikes) }
+        callMap.forEach { (_: String?, strikes: Map<String, List<Option>>) -> markHighVolumeOptions(strikes) }
 
         // Get the collection of positions currently in the position db and check if they need to be exited
         currentPositions.clear()
@@ -112,7 +112,7 @@ class UnusualOptionsStrategy(
         }
         val mean = Util.findMean(filteredMap)
         val stdDeviation = Util.findStandardDeviation(filteredMap, mean)
-        filteredMap.forEach { (strike: String?, option: Option) ->
+        filteredMap.forEach { (_: String?, option: Option) ->
             val threshold = mean + STD_DEVIATIONS * stdDeviation
             if (option.totalVolume > 10 && option.totalVolume > threshold.toInt()) {
                 // For now, only attempt to enter one contract of an option
