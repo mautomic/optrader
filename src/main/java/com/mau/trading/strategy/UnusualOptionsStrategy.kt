@@ -25,6 +25,7 @@ class UnusualOptionsStrategy(
     positions: MongoCollection<Document>,
     private val entrySignals: List<EntrySignal>,
     private val exitSignals: List<ExitSignal>,
+    private val tickers: List<String>,
 ) : BaseStrategy(positions) {
 
     private var latestOptionChain: OptionChain? = null
