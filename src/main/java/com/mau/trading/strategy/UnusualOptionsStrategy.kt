@@ -33,9 +33,7 @@ class UnusualOptionsStrategy(
     private val latestOptionMap: MutableMap<String, Option> = HashMap()
 
     companion object {
-        private val LOG = LogManager.getLogger(
-            UnusualOptionsStrategy::class.java
-        )
+        private val LOG = LogManager.getLogger(UnusualOptionsStrategy::class.java)
         private const val STD_DEVIATIONS = 4
     }
 
@@ -64,7 +62,7 @@ class UnusualOptionsStrategy(
      * Assesses entry signals for the portfolio with the proposed option. Only enter the position if
      * all signals return true
      */
-    fun checkEntrySignals(option: Option?, quantity: Int) {
+    fun checkEntrySignals(option: Option, quantity: Int) {
         for (signal in entrySignals) {
             signal.chain = latestOptionChain
             signal.option = option

@@ -15,7 +15,7 @@ import com.sleet.api.model.Option
  */
 interface Strategy {
     fun run(chain: OptionChain?)
-    fun enter(option: Option?, enterQuantity: Int) {}
-    fun enter(equity: Equity?, enterQuantity: Int) {}
-    fun exit(position: Position?, option: Option?, exitQuantity: Int) {}
+    fun enter(option: Option, enterQuantity: Int) {}
+    fun enter(equity: Equity, enterQuantity: Int) {}
+    fun exit(position: Position?, option: Option, exitQuantity: Int) {}
 }

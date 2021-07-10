@@ -19,7 +19,7 @@ import org.bson.Document
  *
  * @author mautomic
  */
-abstract class BaseStrategy(protected val positions: MongoCollection<Document>) : Strategy {
+abstract class BaseStrategy(val positions: MongoCollection<Document>) : Strategy {
 
     companion object {
         private val LOG = LogManager.getLogger(BaseStrategy::class.java)
@@ -31,12 +31,12 @@ abstract class BaseStrategy(protected val positions: MongoCollection<Document>) 
      * @param option to add to portfolio
      * @param enterQuantity to purchase
      */
-    override fun enter(option: Option?, enterQuantity: Int) {
+    override fun enter(option: Option, enterQuantity: Int) {
 
         // Creates a position for a marked option in the mongodb positions collection. We don't want
         // to append the timestamp to the end of the option symbol, otherwise, we'll add a new position
         // at every scan; we want only one position document per option.
-        val currentPosition = positions.find(Filters.eq(DbColumn.ID.columnName, option!!.symbol)).first()
+        val currentPosition = positions.find(Filters.eq(DbColumn.ID.columnName, option.symbol)).first()
 
         // Insert a fresh position with the qty
         if (currentPosition == null) {
@@ -60,7 +60,7 @@ abstract class BaseStrategy(protected val positions: MongoCollection<Document>) 
      * @param option that contains symbols and their associated [Option] objects
      * @param exitQuantity lots to decrease
      */
-    override fun exit(position: Position?, option: Option?, exitQuantity: Int) {
+    override fun exit(position: Position?, option: Option, exitQuantity: Int) {
         val symbol = position!!.symbol
 
         // exit the option position
@@ -75,9 +75,9 @@ abstract class BaseStrategy(protected val positions: MongoCollection<Document>) 
             // If exit quantity is greater than or equal to current quantity, exit the entire position
             DbUtil.exitPosition(positions, option, currentPosition, currentPnL, exitQuantity)
             if (exitQuantity >= position.qty)
-                LOG.info("Exited all of existing position, " + currentQty + " " + symbol + " @ " + option!!.last)
+                LOG.info("Exited all of existing position, " + currentQty + " " + symbol + " @ " + option.last)
             else
-                LOG.info("Exited portion of existing position, " + exitQuantity + " " + symbol + " @ " + option!!.last)
+                LOG.info("Exited portion of existing position, " + exitQuantity + " " + symbol + " @ " + option.last)
         }
     }
 }

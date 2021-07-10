@@ -65,7 +65,7 @@ class BaseStrategyTest {
 
         // Assert position object we retrieved from the Db matches data from the Option object
         Assert.assertNotNull(position)
-        Assert.assertEquals(option.last, position.buyPrice, 0.0)
+        Assert.assertEquals(option.last, position!!.buyPrice, 0.0)
         Assert.assertEquals(5, position.qty.toLong())
         Assert.assertEquals(option.delta * position.qty, position.delta, 0.01)
 
@@ -77,7 +77,7 @@ class BaseStrategyTest {
         // Assert position object we retrieved from the Db matches the increased quantity and metrics from upsizing
         // We should have 7 shares now
         Assert.assertNotNull(position)
-        Assert.assertEquals(option.last, position.buyPrice, 0.0)
+        Assert.assertEquals(option.last, position!!.buyPrice, 0.0)
         Assert.assertEquals(7, position.qty.toLong())
         Assert.assertEquals(option.delta * position.qty, position.delta, 0.01)
 
@@ -89,7 +89,7 @@ class BaseStrategyTest {
         // Assert position object we retrieved from the Db matches the increased quantity and metrics from downsizing
         // We should have 6 shares now
         Assert.assertNotNull(position)
-        Assert.assertEquals(option.last, position.buyPrice, 0.0)
+        Assert.assertEquals(option.last, position!!.buyPrice, 0.0)
         Assert.assertEquals(6, position.qty.toLong())
         Assert.assertEquals(option.delta * position.qty, position.delta, 0.01)
 
@@ -101,7 +101,7 @@ class BaseStrategyTest {
         // Assert position object we retrieved from the Db matches the increased quantity and metrics from downsizing
         // We should have 0 shares now
         Assert.assertNotNull(position)
-        Assert.assertEquals(option.last, position.buyPrice, 0.0)
+        Assert.assertEquals(option.last, position!!.buyPrice, 0.0)
         Assert.assertEquals(0, position.qty.toLong())
         Assert.assertEquals(option.delta * position.qty, position.delta, 0.01)
     }
@@ -112,5 +112,5 @@ class BaseStrategyTest {
  */
 internal class DoNothingStrategy(positions: MongoCollection<Document>?) : BaseStrategy(positions!!) {
     override fun run(chain: OptionChain?) {}
-    override fun enter(equity: Equity?, enterQuantity: Int) {}
+    override fun enter(equity: Equity, enterQuantity: Int) {}
 }
